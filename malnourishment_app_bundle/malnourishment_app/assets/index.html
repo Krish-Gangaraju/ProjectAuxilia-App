@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" type="text/css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cover/">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <!--<script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>-->
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+
+</head>
+
+
+<body class="d-flex h-100 text-center" data-new-gr-c-s-check-loaded="14.1034.0" style = "background: #f5cfbc;">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header style = "background-color: #7f9e9f;">
+            <img src="https://cdn.discordapp.com/attachments/758541399665672242/889890347273039922/agTQDKWCS8m3TpV0jOcd_y2D5m7ye8xg5l7zv.png">
+            <center><h1>Project Auxilia Malnourishment App</h1></center>
+        </header>
+
+
+<section class="container">
+    <ul class="tabs">
+      <li class="tab-item" id = "chIMG"><a href="#item1" class="active">Image Recognition</a></li>
+      <li class="tab-item" id = "chBMI"><a href="#item2" id="change">BMI Calculator</a></li>
+    </ul>
+
+    <div class="wrapper_tab-content">
+
+      <article id="item1" class="tab-content content-visible">
+        <div class="detection">
+    <main class="px-3">
+    <center>
+        <h1 style = "font-size: 3.5vh;">Detect malnourishment with just one click.</h1>
+        <p style = "font-size: 2.2vh;" class="lead">Use this image recognition model made with Google's Teachable Machine</p>
+
+        <p  style = "font-size: 2.2vh;"><span class="highlight">@IMPORTANT</span>This is for testing purposes, and not medically proven. Please don't take this as a definite reading</p>
+    </center>
+
+        <div class="row">
+            <figure class="column1">
+                <img src = "https://cdn.discordapp.com/attachments/901058154069114910/924605137446666250/Screen_Shot_2021-12-26_at_3.40.35_PM.png" style = "margin-left: 2vw; height:18vw; width:42vw">
+                <figcaption style = "margin-left: 2.5vw; margin-top: -1vw; color: #925753; font-size: 1.4vw;"> - Make sure there is good lighting when you are in frame</figcaption>
+            </figure>
+
+            <figure class="column2">
+                <img src = "https://cdn.discordapp.com/attachments/901058154069114910/924634394491232276/Screen_Shot_2021-12-26_at_5.36.52_PM.png" style = "margin-left: 2vh; height:18vw; width:42vw">
+                <figcaption style = "margin-left: 2.5vw; margin-top: -1vw; color: #925753; font-size: 1.4vw;"> - Face (forehead to shoulder) should cover 70-80% of frame</figcaption>
+            </figure>
+        </div>
+
+    <center>
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
+            <br>
+    </center>
+    </main>
+</div>
+      </article>
+
+      <article id="item2" class="tab-content">
+        <div class="container_BMI">
+            <div class="box">
+                <div class="content">
+                    <br>
+                <div class="input">
+                    <label for="height">Height(cm)</label>
+                    <input type="number" id="height">
+                </div>
+                <div class="input">
+                    <label for="weight">Weight(kg)</label>
+                    <input type="number" id="weight">
+                </div>
+                <button id="calculate">Calculate BMI</button>
+                </div>
+                <div class="result" style = "margin-top: -3vh;">
+                <p>Your BMI is</p>
+                <div id="result">00.00</div>
+                <p class="comment" style = "margin-top: -2vh;"></p>
+                </div>
+            </div>
+        </div>
+      </article>
+
+
+    </div>
+  </section>
+
+</body>
+
+<!--
+<footer id="name">
+    <div class="content">
+        <div class="top">
+        <div class="logo-details">
+            <i class="fas fa-users"></i>
+            <span class="logo_name">AI App</span>
+        </div>
+        <div class="media-icons">
+            <a href="https://twitter.com/project_auxilia" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/project_auxilia/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/projectauxilia" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/channel/UCTc6QotbiOgy2Ov5YZ15uEw" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href = "mailto:projectauxilia.info@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+        </div>
+        </div>
+        <div class="link-boxes">
+        <ul class="box">
+            <li class="link_name">Project Auxilia</li>
+            <li><a href="https://www.projectauxilia.com" target="_blank">↳ Our Goal</a></li>
+            <li><a href="https://www.projectauxilia.com/about_us" target="_blank">↳ About Us</a></li>
+            <li><a href="https://www.projectauxilia.com/donate" target="_blank">↳ Donate</a></li>
+        </ul>
+        <ul class="box">
+            <li class="link_name">Solutions</li>
+            <li><a href="https://www.projectauxilia.com/awareness" target="_blank">↳ Awareness Sessions</a></li>
+            <li><a href="https://www.projectauxilia.com/water-solution" target="_blank">↳ Water Project</a></li>
+        </ul>
+        <ul class="box">
+            <li class="link_name">FAQs</li>
+            <li><a href="https://web-chat.global.assistant.watson.cloud.ibm.com/preview.html?region=eu-gb&integrationID=7f7070f3-e135-4678-913d-13a609f5b045&serviceInstanceID=8d10eea1-76fe-4a27-93c4-725acf8f4182" target="_blank">↳ Chatbot</a></li>
+            <li><a href="https://www.projectauxilia.com/blog" target="_blank">↳ Our Blog</a></li>
+        </ul>
+        <ul class="box">
+            <li class="link_name">Made By</li>
+            <li>Krish Gangaraju</a></li>
+            <li>Aneesh Mamidi</a></li>
+        </ul>
+        </div>
+    </div>
+</footer>
+-->
+
+
+<!-- Header CSS -->
+<style>
+.column1 {
+  float: left;
+  width: 50%;
+  padding: 2px;
+}
+.column2 {
+  float: left;
+  width: 50%;
+  padding: 2px;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.bd-placeholder-img {
+font-size: 1.125rem;
+-webkit-user-select: none;
+-moz-user-select: none;
+user-select: none;
+}
+
+@media (min-width: 768px) {
+.bd-placeholder-img-lg {
+    font-size: 3.5rem;
+}
+}
+
+h1 {
+color: #0e5154;
+}
+
+p {
+color: #925753;
+}
+
+.lead {
+color: #925753;
+}
+
+#webcam-container {
+color: #925753;
+}
+
+#label-container {
+color: #925753;
+}
+
+.image {
+border-radius: 100px;
+margin-top: 8rem;
+height: 200px;
+scale: 2;
+
+}
+
+
+li {
+margin-right: 2.4rem;
+color: white;
+}
+
+ul {
+list-style: none;
+}
+
+.highlight {
+color: #0e5154;
+margin-right: 1vw;
+}
+
+a {
+text-decoration: none;
+}
+
+a:hover {
+-webkit-transform: scale(1.5);
+transform: scale(1.5);
+}
+
+/* HEADER STYLES */
+header{
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 12px;
+box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+}
+header h1{
+font-size: 4vw;
+text-align: center;
+margin-left: 6vw;
+font-family: "Fantasy" , "Copperplate";
+}
+header img{
+width: 8vw;
+height: 8vw;
+/*  Rounded corners  */
+border-radius: 100%;
+/*   margin: 10px */
+}
+</style>
+
+
+
+<!-- Footer CSS -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" , sans-serif;
+}
+
+footer{
+  background: #0b5154;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+footer::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  margin-top: 6vw;
+  height: 1px;
+  width: 100%;
+  background: #AFAFB6;
+}
+footer .content{
+  max-width: 1250px;
+  margin: auto;
+  padding: 30px 40px 40px 40px;
+}
+footer .content .top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+.content .top .logo-details{
+  color: #fff;
+  font-size: 30px;
+}
+.content .top .media-icons{
+  display: flex;
+}
+.content .top .media-icons a{
+  height: 40px;
+  width: 40px;
+  margin: 0 8px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+  font-size: 17px;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.top .media-icons a:nth-child(1){
+  background: #1DA1F2;
+}
+.top .media-icons a:nth-child(1):hover{
+  color: #1DA1F2;
+  background: #fff;
+}
+
+.top .media-icons a:nth-child(2){
+  background: #E1306C;
+}
+.top .media-icons a:nth-child(2):hover{
+  color: #E1306C;
+  background: #fff;
+}
+
+.top .media-icons a:nth-child(3){
+  background: #4267B2;
+}
+.top .media-icons a:nth-child(3):hover{
+  color: #4267B2;
+  background: #fff;
+}
+
+.top .media-icons a:nth-child(4){
+  background: #FF0000;
+}
+.top .media-icons a:nth-child(4):hover{
+  color: #FF0000;
+  background: #fff;
+}
+
+.top .media-icons a:nth-child(5){
+  background: #045991;
+}
+.top .media-icons a:nth-child(5):hover{
+  color: #045991;
+  background: #fff;
+}
+
+footer .content .link-boxes{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+footer .content .link-boxes .box{
+  width: calc(100% / 5 - 10px);
+}
+.content .link-boxes .box .link_name{
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  position: relative;
+}
+.link-boxes .box .link_name::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 35px;
+  background: #fff;
+}
+.content .link-boxes .box li{
+  margin: 6px 0;
+  list-style: none;
+}
+.content .link-boxes .box li a{
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: all 0.4s ease
+}
+.leave:before {
+    font-size: 100px;
+}
+.content .link-boxes .box li a:hover{
+  opacity: 1;
+  text-decoration: underline;
+}
+.content .link-boxes .input-box{
+  margin-right: 55px;
+}
+.link-boxes .input-box input{
+  height: 40px;
+  width: calc(100% + 55px);
+  outline: none;
+  border: 2px solid #AFAFB6;
+  background: #140B5C;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 15px;
+  color: #fff;
+  margin-top: 5px;
+}
+.link-boxes .input-box input::placeholder{
+  color: #AFAFB6;
+  font-size: 16px;
+}
+.link-boxes .input-box input[type="button"]{
+  background: #fff;
+  color: #140B5C;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 4px 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.input-box input[type="button"]:hover{
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  footer .content .link-boxes{
+    flex-wrap: wrap;
+  }
+  footer .content .link-boxes .input-box{
+    width: 40%;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 700px){
+  footer{
+    position: relative;
+  }
+  .content .top .logo-details{
+    font-size: 26px;
+  }
+  .content .top .media-icons a{
+    height: 35px;
+    width: 35px;
+    font-size: 14px;
+    line-height: 35px;
+  }
+  footer .content .link-boxes .box{
+    width: calc(100% / 3 - 10px);
+  }
+  footer .content .link-boxes .input-box{
+    width: 60%;
+  }
+  .bottom-details .bottom_text span,
+  .bottom-details .bottom_text a{
+    font-size: 12px;
+  }
+}
+@media (max-width: 520px){
+  footer::before{
+    top: 145px;
+  }
+  footer .content .top{
+    flex-direction: column;
+  }
+  .content .top .media-icons{
+    margin-top: 16px;
+  }
+  footer .content .link-boxes .box{
+    width: calc(100% / 2 - 10px);
+  }
+  footer .content .link-boxes .input-box{
+    width: 100%;
+  }
+}
+
+</style>
+
+<!-- --------------------------------------- -->
+
+<!-- BMI CSS -->
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
+.container_BMI{
+    position: absolute;
+    top: 1.5vh;
+    left: 50%;
+    transform: translate(-50%,0%);
+    font-family: 'Nunito', sans-serif;
+}
+.container_BMI .box{
+    min-width: 350px;
+    background: #FAFAFA;
+    border-radius: 38px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 1.5vh;
+}
+
+.container_BMI .content{
+    padding: 0 40px;
+}
+.container_BMI .input{
+    background: #FFF;
+    box-shadow: 0px 0px 95px -30px rgba(0,0,0,0.15);
+    border-radius: 28px;
+    padding: 2vh 0;
+    margin-bottom: 20px;
+}
+.container_BMI .input label{
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 20px;
+}
+.container_BMI .input input{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #4f7df9;
+    width: 60%;
+    text-align: center;
+    font-size: 28px;
+    font-family: 'Nunito', sans-serif;
+}
+button#calculate{
+    font-family: 'Nunito', sans-serif;
+    color: #FFF;
+    background: #4f7df9;
+    font-size: 16px;
+    border-radius: 12px;
+    padding: 12px 0;
+    width: 100%;
+    outline: none;
+    border: none;
+    transition: background .2s ease;
+}
+button#calculate:hover{
+    background: #0044ff;
+}
+.result{
+    padding: 30px 20px;
+}
+.result p{
+    font-weight: 600;
+    font-size: 22px;
+    color: #000;
+    margin-bottom: 15px;
+}
+.result #result{
+    font-size: 30px;
+    font-weight: 900;
+    color: #4f7df9;
+    background-color: #eaeaea;
+    display: inline-block;
+    padding: 7px 20px;
+    border-radius: 55px;
+    margin-bottom: 25px;
+}
+#comment{
+    color: #4f7df9;
+    font-weight: 800;
+}
+</style>
+
+
+<!-- BMI JS -->
+<script>
+const btn = document.getElementById('calculate');
+
+btn.addEventListener('click', function(){
+
+    let height = document.querySelector('#height').value;
+    let weight = document.querySelector('#weight').value;
+
+    if(height == '' || weight == ''){
+        alert('Please fill out the input fields!');
+        return;
+    }
+
+   // BMI = weight in KG / (height in m * height in m)
+
+   height = height / 100
+   let BMI = (weight / (height * height));
+   BMI = BMI.toFixed(2);
+
+   document.querySelector('#result').innerHTML = BMI;
+    let status = '';
+
+    if(BMI < 18.5){
+        status = "Underweight";
+    }
+    if(BMI >=18.5 && BMI < 25){
+        status = "Healthy";
+    }
+    if(BMI >=25 && BMI < 30){
+        status = "Overweight";
+    }
+    if(BMI >=30){
+        status = "Obese";
+    }
+    document.querySelector('.comment').innerHTML = `Comment: you are <span id="comment">${status}</span>`;
+
+});
+</script>
+
+<!-- --------------------------------------- -->
+
+<!-- Real Webcam JS -->
+<script>
+const URL = "https://teachablemachine.withgoogle.com/models/QINhVOmC3/";
+setTimeout(function () {init()}, 2000);
+
+let model, webcam, labelContainer, maxPredictions;
+
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+    // document.getElementById("webcam-container").innerHTML = '<span>Loading...</span>';
+
+    model = await tmImage.load(modelURL, metadataURL);
+    // document.getElementById("webcam-container").innerHTML = '<span>Hello</span>';
+    maxPredictions = model.getTotalClasses();
+    // document.getElementById("webcam-container").innerHTML = '<span>Hello world</span>';
+
+    const flip = true;
+    webcam = new tmImage.Webcam(200, 200, flip);
+    console.log(JSON.stringify (webcam));
+    // document.getElementById("webcam-container").innerHTML = '<span>Camera...!</span>';
+    
+    var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
+    var constraints = { audio: false, video: { facingMode: facingMode } };
+
+// /* Stream it to video element */
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+// document.getElementById("webcam-container").innerHTML = '<span>configure...!</span>';
+
+    await webcam.setup();
+    // document.getElementById("webcam-container").innerHTML = '<span>Setting up...!</span>';
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+    // alert('hi2');
+    document.getElementById("webcam-container").appendChild(webcam.canvas);
+    labelContainer = document.getElementById("label-container");
+    for (let i = 0; i < maxPredictions; i++) {
+        labelContainer.appendChild(document.createElement("div"));
+    }
+//     alert('hi3');
+}
+
+async function loop() {
+    webcam.update();
+    await predict();
+    window.requestAnimationFrame(loop);
+}
+
+async function predict() {
+    // predict can take in an image, video or canvas html element
+    const prediction = await model.predict(webcam.canvas);
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+            prediction[i].className + ": " + prediction[i].probability.toFixed(2)*100;
+        labelContainer.childNodes[i].innerHTML = classPrediction;
+    }
+}
+</script>
+
+<!-- --------------------------------------- -->
+
+<!-- Tabs CSS -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+section a {
+  text-decoration: none;
+  color: inherit;
+}
+
+section ul {
+  list-style: none;
+  margin-top: 1.5vh;
+  margin-left: 5vh;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+
+section  .container {
+  font-family: 'Poppins', sans-serif;
+  max-width: 600px;
+  width: 100%;
+}
+
+section  li a {
+  color: #a4a4a4;
+  font-size: 1.5vh;
+}
+
+section  li a:hover {
+  padding-bottom: 4px;
+  border-bottom: 3px solid #0FBEFF;
+}
+
+section .wrapper_tab-content {
+  position: relative;
+}
+
+section .tab-content {
+  position: absolute;
+  padding: 1.75em 0;
+  visibility: hidden;
+  height: 0;
+}
+
+section .tab-content h1 {
+  font-size: 1.12em;
+  margin-bottom: .5em;
+}
+
+section .content-visible {
+  position: static;
+  visibility: visible;
+  height: auto;
+}
+
+section .active {
+  color: #444;
+  padding-bottom: 4px;
+  border-bottom: 3px solid #0FBEFF;
+}
+</style>
+
+
+<!-- Tabs JS -->
+<script>
+//Selects current tab label & shows current tab pane / content, while hiding all other labels and content that is not selected
+const selectTab = element => {
+
+  //stores the active class for tab labels
+  const active = document.querySelector('.active');
+
+  //stores visible class for tab pane / content
+  const visible = document.querySelector('.content-visible');
+
+  //refrences actual element with the corresponding tab pane / content
+  //get the element's id from the href of the selected tab label
+  //use split method on the href to get the id or '#' which gives us an array of the url and the selected id
+  //from the array we grab the index of [1] to isolate the id we want
+  const tabContent = document.getElementById(element.href.split('#')[1]);
+
+  //the console log will show the id of the tab label selected
+  //console.log(element.href.split('#')[1]);
+
+  //first, if the active class exists on our tab label we remove it
+  if (active) {
+    active.classList.remove('active');
+  }
+
+  //add back the active class to the selected tab label
+  element.classList.add('active');
+
+  //similarly, if the visible class exists on our tab pane / content we remove it
+  if (visible) {
+    visible.classList.remove('content-visible');
+  }
+
+  //add back the visible class to the corresponding tab pane / content
+  tabContent.classList.add('content-visible');
+
+}
+
+//event delegation
+document.addEventListener('click', event => {
+
+  //if a tab label is clicked
+  if (event.target.matches('.tab-item a')) {
+    //run the selectTab function, pass in the click event target
+    selectTab(event.target);
+
+    //the console log will show which tab label / anchor link is being selected
+    //console.log(event.target);
+  }
+}, false);
+
+
+
+
+$(document).ready( function(){
+    $("#chBMI").click( function(e){
+        document.getElementById("name").style.marginTop = "65vh";
+    });
+
+    $("#chIMG").click( function(e){
+        document.getElementById("name").style.marginTop = "0vh";
+    });
+})
+</script>
